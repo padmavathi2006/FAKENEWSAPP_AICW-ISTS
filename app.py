@@ -11,37 +11,79 @@ st.set_page_config(
 )
 
 # -------------------------------------------------
-# CUSTOM STYLE
+        #BACKGROUND + STYLE
 # -------------------------------------------------
 st.markdown(
     """
     <style>
-    /* Sidebar width */
+
+    /* Background image */
+    .stApp {
+        background-image: url("https://images.unsplash.com/photo-1504711434969-e33886168f5c");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+    }
+
+    /* Dark overlay */
+    .stApp::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.55);
+        z-index: 0;
+    }
+
+    /* Content above overlay */
+    .block-container {
+        position: relative;
+        z-index: 1;
+        color: white;
+    }
+
+    /* ---------------- SIDEBAR ---------------- */
     section[data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #c7d2fe, #a5b4fc);
         width: 380px !important;
     }
 
-    /* Sidebar headings */
-    section[data-testid="stSidebar"] h1, 
-    section[data-testid="stSidebar"] h2, 
-    section[data-testid="stSidebar"] h3 {
-        font-size: 24px;
-        font-weight: bold;
+    section[data-testid="stSidebar"] * {
+        color: #0f172a !important;
+        font-weight: 600;
+    }
+    /* ---------------- TEXT AREA BLACK ---------------- */
+    textarea {
+        background-color: #111111 !important;
+        color: #ffffff !important;
+        border-radius: 12px !important;
+        border: 1px solid #333333 !important;
+        padding: 12px !important;
+        font-size: 16px !important;
     }
 
-    /* Sidebar text */
-    section[data-testid="stSidebar"] p, 
-    section[data-testid="stSidebar"] li {
-        font-size: 17px;
+/* placeholder text */
+    textarea::placeholder {
+        color: #aaaaaa !important;
     }
 
-    /* Main button */
+     /* Label */
+    label {
+        color: white !important;
+        font-weight: bold !important;
+        font-size: 18px !important;
+    }
+    /* ---------------- BUTTON ---------------- */
     div.stButton > button {
         width: 100%;
         font-size: 18px;
         font-weight: bold;
         height: 3em;
+        border-radius: 10px;
     }
+
     </style>
     """,
     unsafe_allow_html=True
@@ -96,12 +138,16 @@ def load_model():
 model, vectorizer = load_model()
 
 # -------------------------------------------------
-# INPUT AREA
+# INPUT
 # -------------------------------------------------
-news_text = st.text_area("✍️ Enter News Text Here:", height=220, placeholder="Paste the news content...")
+news_text = st.text_area(
+    "✍️ Enter News Text Here:",
+    height=220,
+    placeholder="Paste the news content..."
+)
 
 # -------------------------------------------------
-# PREDICT BUTTON
+# PREDICT
 # -------------------------------------------------
 if st.button("🔍 Predict"):
 
@@ -114,9 +160,9 @@ if st.button("🔍 Predict"):
         st.divider()
 
         if prediction[0] == "FAKE":
-            st.error("🚨 Prediction: This News is FAKE🚨")
+            st.error("🚨 Prediction: This News is FAKE 🚨")
         else:
-            st.success("✅ Prediction: This News is REAL✅")
+            st.success("✅ Prediction: This News is REAL ✅")
 
 # -------------------------------------------------
 # FOOTER
